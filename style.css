@@ -109,3 +109,63 @@ footer {
     margin-top: auto;
     font-size: 0.9em;
 }
+
+/* --- Responsive design --- */
+
+/* Petits écrans : téléphones */
+@media (max-width: 600px) {
+    body {
+        font-size: 0.95rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 0.6em;
+    }
+
+    nav a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0.6em;
+    }
+
+    .img-pp {
+        width: 180px;
+        height: 180px;
+        margin-bottom: 1em;
+    }
+
+    .presentation h2 {
+        font-size: 1.4em;
+    }
+
+    .presentation h3 {
+        font-size: 1em;
+    }
+
+    main {
+        padding: 0 0.5em;
+        margin: 2em auto;
+    }
+
+    .separator {
+        width: 80%;
+    }
+}
+
+/* Tablettes et écrans moyens */
+@media (min-width: 601px) and (max-width: 900px) {
+    nav a {
+        font-size: 0.95rem;
+    }
+
+    .img-pp {
+        width: 200px;
+        height: 200px;
+    }
+
+    .presentation h2 {
+        font-size: 1.6em;
+    }
+}
