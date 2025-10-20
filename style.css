@@ -110,6 +110,20 @@ footer {
     font-size: 0.9em;
 }
 
+.dev-banner {
+    background-color: #ffcc00;
+    color: #222;
+    text-align: center;
+    font-weight: 600;
+    padding: 0.6em;
+    font-size: 0.95rem;
+    border-bottom: 2px solid #e0b800;
+    position: sticky;   /* reste visible en haut lors du scroll */
+    top: 0;
+    z-index: 1000;
+}
+
+
 /* --- Responsive design --- */
 
 /* Petits écrans : téléphones */
