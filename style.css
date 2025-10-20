@@ -50,6 +50,22 @@ nav a.active {
     color: white;
 }
 
+.separator {
+    border: none;
+    height: 2px;
+    width: 60%;
+    margin: 30px auto;
+    background-color: #444; /* couleur de la ligne */
+    border-radius: 2px;     /* bords arrondis optionnels */
+}
+
+.no-bullet {
+    list-style-type: none;  /* supprime les puces */
+    padding-left: 0;        /* enlève l’espace à gauche */
+    margin: 0;              /* optionnel : resserre la liste */
+
+}
+
 /* --- Section principale --- */
 main {
     max-width: 900px;
