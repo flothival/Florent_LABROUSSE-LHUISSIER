@@ -1,0 +1,41 @@
+.timeline {
+    max-width: 700px;
+    margin: 2em auto;
+    padding: 0 1em;
+    display: flex;
+    flex-direction: column-reverse; /* fait partir le bas en premier */
+    gap: 1.5em;
+    font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+.event {
+    background-color: #f0f4f8;
+    padding: 1em;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.event .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5em;
+}
+
+.event .header h3 {
+    margin: 0;
+    color: #004477;
+    font-size: 1.1em;
+}
+
+.event .header .date {
+    font-size: 0.85em;
+    color: #666;
+}
+
+.event p {
+    margin: 0;
+    color: #333;
+    line-height: 1.5;
+}
