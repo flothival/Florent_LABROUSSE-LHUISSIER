@@ -123,6 +123,31 @@ footer {
     z-index: 1000;
 }
 
+/* logo */
+.logo-prog {
+    margin-top: 1em;
+    display: flex;
+    gap: 0.8em; /* espace entre les logos */
+    flex-wrap: wrap; /* si plusieurs logos, passe à la ligne */
+    justify-content: center;
+}
+
+.logo-prog img {
+    width: 30px;  /* taille uniforme */
+    height: 30px;
+    object-fit: contain;
+    transition: transform 0.2s;
+    cursor: default;
+}
+.logo {
+  width: 22px;               /* taille du logo */
+  height: 22px;
+  display: inline-block;      /* s’assure qu’il reste sur la même ligne que le texte */
+  vertical-align: middle;     /* aligne verticalement avec le texte */
+  margin-left: 6px;           /* espace entre texte et logo */
+}
+
+
 
 /* --- Responsive design --- */
 
