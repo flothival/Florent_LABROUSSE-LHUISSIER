@@ -54,5 +54,10 @@
   padding: 1em;
 }
 
+.project .content  {
+  text-align: justify;
+  font-size: small;
+}
+
 
 

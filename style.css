@@ -55,14 +55,14 @@ nav a.active {
     height: 2px;
     width: 60%;
     margin: 30px auto;
-    background-color: #444; /* couleur de la ligne */
-    border-radius: 2px;     /* bords arrondis optionnels */
+    background-color: #444; 
+    border-radius: 2px;     
 }
 
 .no-bullet {
-    list-style-type: none;  /* supprime les puces */
-    padding-left: 0;        /* enlève l’espace à gauche */
-    margin: 0;              /* optionnel : resserre la liste */
+    list-style-type: none; 
+    padding-left: 0;        
+    margin: 0;              
 
 }
 
@@ -118,7 +118,7 @@ footer {
     padding: 0.6em;
     font-size: 0.95rem;
     border-bottom: 2px solid #e0b800;
-    position: sticky;   /* reste visible en haut lors du scroll */
+    position: sticky;   
     top: 0;
     z-index: 1000;
 }
@@ -127,24 +127,34 @@ footer {
 .logo-prog {
     margin-top: 1em;
     display: flex;
-    gap: 0.8em; /* espace entre les logos */
-    flex-wrap: wrap; /* si plusieurs logos, passe à la ligne */
+    gap: 0.8em; 
+    flex-wrap: wrap; 
     justify-content: center;
 }
 
 .logo-prog img {
-    width: 30px;  /* taille uniforme */
+    width: 30px;  
     height: 30px;
     object-fit: contain;
     transition: transform 0.2s;
     cursor: default;
 }
 .logo {
-  width: 22px;               /* taille du logo */
+  width: 22px;              
   height: 22px;
-  display: inline-block;      /* s’assure qu’il reste sur la même ligne que le texte */
-  vertical-align: middle;     /* aligne verticalement avec le texte */
-  margin-left: 6px;           /* espace entre texte et logo */
+  display: inline-block;      
+  vertical-align: middle;     
+  margin-left: 2px;
+}
+
+.project .logo:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.project .logo-prog img:hover {
+    transform: scale(1.1);
+    opacity: 1;
 }
 
 
