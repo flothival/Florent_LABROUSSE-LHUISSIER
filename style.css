@@ -119,6 +119,10 @@ footer {
     font-size: 0.9em;
 }
 
+footer p {
+    margin: 0;
+}
+
 .dev-banner {
     background-color: #ffcc00;
     color: #222;
