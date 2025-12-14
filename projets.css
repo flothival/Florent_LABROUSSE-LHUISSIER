@@ -50,7 +50,7 @@
 }
 
 .project input:checked + .header + .content {
-  max-height: 500px; /* assez grand pour ton contenu */
+  max-height: 3000px; /* hauteur bulles texte */
   padding: 1em;
 }
 
