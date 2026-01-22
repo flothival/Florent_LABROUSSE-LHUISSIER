@@ -473,7 +473,7 @@ class ProjectModal {
       },
       'encheres': {
         title: 'Plateforme de vente aux enchères communicantes et sécurisées',
-        date: 'En cours',
+        date: 'Premier semestre 2026',
         type: 'Projet académique',
         content: `
           <p>Dans le cadre de ma deuxième année de BUT Informatique, je développe un logiciel d'enchères basé sur le principe de Vickrey (enchères à plis fermés). Ce projet comprend une interface graphique en JavaFX, la communication en temps réel entre un vendeur et plusieurs enchérisseurs, ainsi qu'une interface d'administration permettant de gérer les utilisateurs et de suivre l'évolution des enchères.</p>
@@ -485,6 +485,47 @@ class ProjectModal {
           <p><strong>Technologies utilisées:</strong> Java / JavaFX</p>
         `,
         tech: ['img/logo/logo java.svg']
+      },
+      'villes3d': {
+        title: 'Geospatial Vector Extrusion',
+        date: 'Janvier 2026',
+        type: 'Projet personnel',
+        content: `
+          <p>Ce projet représente l'un de mes travaux les plus ambitieux. Passionné à la fois par l'informatique et la cartographie, j'ai voulu allier ces deux domaines en créant un outil capable de <strong>générer des visualisations 3D de données cartographiques</strong>.</p>
+
+          <img src="img/img-projets/en_mode_cartographe.jpg" alt="En mode cartographe" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+
+
+          <p>L'idée est simple : entrer le nom d'une ville, un rayon, et le programme construit automatiquement une maquette 3D complète avec les bâtiments, les rues et le relief du terrain. Le tout est explorable librement.</p>
+
+          <p>Ce programme a été développé en Python et m'a permis de me familiariser avec ce langage de programmation très célèbre mais que j'avais pourtant très rarement utilisé.</p>
+
+          <h4>Les défis techniques</h4>
+          <p>Le plus gros challenge a été l'optimisation des ressources. Malgré le fait que je possède un ordinateur doté d'une puissance de calcul remarquable. Générer Paris avec ses <strong>123 937 bâtiments</strong> demande énormément de calculs. J'ai donc implémenté un système de <a href="https://fr.wikipedia.org/wiki/Symmetric_multiprocessing" target="_blank">multiprocessing</a> qui exploite tous les cœurs du processeur, ainsi qu'une fusion rapide des <a href="https://support.esri.com/fr-fr/gis-dictionary/mesh" target="_blank"> meshes</a> pour éviter les goulots d'étranglement.</p>
+          <p>Il m'a également fallu mettre en place <a href="https://fr.wikipedia.org/wiki/Projection_conique_conforme_de_Lambert" target="_blank">la projection de Lambert</a>. La projection de Lambert est une projection cartographique qui représente fidèlement les méridiens sur la France métropolitaine.</p>
+
+          <h4>Projection de Lambert</h4>
+          <img src="img/lambert.png" alt="Projection de Lambert" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+
+
+          <h4>Ce que j'ai appris</h4>
+          <p>Ce projet m'a permis de découvrir le traitement de données géospatiales (OpenStreetMap, données d'élévation SRTM), la visualisation 3D avec PyVista, et surtout l'optimisation de code Python pour des calculs intensifs.</p>
+
+          <p>J'ai réalisé des rendus de plusieurs villes françaises :</p>
+
+          <h4>Millau</h4>
+          <img src="img/img-projets/Millau.png" alt="Rendu 3D de Millau" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+
+          <h4>Paris</h4>
+          <p>La capitale dans son intégralité avec ses 123 937 bâtiments. Ce rendu m'a forcé à optimiser le code en raison de la puissance de calcul nécessaire.</p>
+          <img src="img/img-projets/Paris.png" alt="Rendu 3D de Paris" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+
+          <h4>Montpellier</h4>
+          <p>Avec les bâtiments et les routes.</p>
+          <img src="img/img-projets/Montpellier.png" alt="Rendu 3D de Montpellier" style="width: 100%; border-radius: 8px; margin: 0.5rem 0;">
+        `,
+        github: 'https://github.com/flothival/geospatial-vector-extrusion',
+        tech: ['img/logo/logo python.png']
       },
       'meuh': {
         title: 'meuh encoding',
