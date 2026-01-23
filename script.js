@@ -473,14 +473,19 @@ class ProjectModal {
       },
       'encheres': {
         title: 'Plateforme de vente aux enchères communicantes et sécurisées',
-        date: 'Premier semestre 2026',
+        date: 'Deuxième semestre 2026',
         type: 'Projet académique',
         content: `
-          <p>Dans le cadre de ma deuxième année de BUT Informatique, je développe un logiciel d'enchères basé sur le principe de Vickrey (enchères à plis fermés). Ce projet comprend une interface graphique en JavaFX, la communication en temps réel entre un vendeur et plusieurs enchérisseurs, ainsi qu'une interface d'administration permettant de gérer les utilisateurs et de suivre l'évolution des enchères.</p>
+          <p>Dans le cadre de ma deuxième année de BUT Informatique, j'ai développé un logiciel d'enchères basé sur le principe de Vickrey (enchères à plis fermés). Ce projet comprend une interface graphique en JavaFX, la communication en temps réel entre un vendeur et plusieurs enchérisseurs, ainsi qu'une interface d'administration permettant de gérer les utilisateurs et de suivre l'évolution des enchères.</p>
 
           <p>L'ensemble des informations échangées entre le serveur et les différents clients est chiffré par le biais de sécurités cryptographiques.</p>
 
-          <p>Le développement de ce projet, actuellement en cours, se poursuivra jusqu'à la fin de l'année 2025.</p>
+          <p>Ce projet m'a permis d'explorer en profondeur certains aspects de la cybersécurité, notamment en sécurisant la communication entre les différents clients. J'ai également essayé d'attaquer notre logiciel avec différents types d'attaques : Man in the Middle, injections SQL...</p>
+
+          <img src="img/img-projets/j'avenchère co.png" alt="Interface de connexion j'avenchère" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+
+          <img src="img/img-projets/j'avenchère admin.png" alt="Interface de l'administrateur de j'avenchère" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+
 
           <p><strong>Technologies utilisées:</strong> Java / JavaFX</p>
         `,
@@ -493,7 +498,7 @@ class ProjectModal {
         content: `
           <p>Ce projet représente l'un de mes travaux les plus ambitieux. Passionné à la fois par l'informatique et la cartographie, j'ai voulu allier ces deux domaines en créant un outil capable de <strong>générer des visualisations 3D de données cartographiques</strong>.</p>
 
-          <img src="img/img-projets/en_mode_cartographe.jpg" alt="En mode cartographe" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+          <img src="img/img-projets/en_mode_cartographe.jpg" alt="En mode cartographe" style="width: 80%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
 
 
           <p>L'idée est simple : entrer le nom d'une ville, un rayon, et le programme construit automatiquement une maquette 3D complète avec les bâtiments, les rues et le relief du terrain. Le tout est explorable librement.</p>
