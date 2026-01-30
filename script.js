@@ -8,6 +8,47 @@ function setupAutoTheme() {
   }
 }
 
+// ===== DOWNLOAD CV =====
+function downloadCV(event) {
+  event.preventDefault();
+  const link = event.currentTarget;
+  const url = link.href;
+
+  // Si on est sur file://, utiliser le lien direct avec download
+  if (window.location.protocol === 'file:') {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'curriculum vitae.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    return;
+  }
+
+  // Sur serveur HTTP/HTTPS, utiliser fetch pour forcer le téléchargement
+  fetch(url)
+    .then(response => response.blob())
+    .then(blob => {
+      const blobUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = 'curriculum vitae.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(blobUrl);
+    })
+    .catch(() => {
+      // Fallback: lien direct si fetch échoue
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'curriculum vitae.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+}
+
 // ===== PIXEL ART BACKGROUND =====
 class PixelArtBackground {
   constructor(canvasId) {
