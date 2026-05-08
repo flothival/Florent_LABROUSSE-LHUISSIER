@@ -994,6 +994,58 @@ button {
   }
 }
 
+/* ===== FIREFOX FALLBACK FOR THE FLIP CARD =====
+   Firefox a des bugs persistants avec preserve-3d + backface-visibility +
+   face en position:absolute (back face visible à travers, glitches de
+   layout, sauts de hauteur). Sur Firefox uniquement, on désactive la
+   rotation 3D et on remplace par un slide+fade horizontal — même
+   intention visuelle, zéro 3D, zéro bug. Chrome/Edge/Safari gardent
+   l'animation flip d'origine. */
+@-moz-document url-prefix() {
+  .timeline-flip-stage {
+    perspective: none;
+  }
+
+  .timeline-flip-card {
+    transform-style: flat;
+    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .timeline-flip-card.flipped {
+    transform: none;
+  }
+
+  .timeline-flip-face {
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+  }
+
+  /* Front reste en position:relative pour donner sa hauteur naturelle
+     à la card avant que JS la fixe explicitement. Back reste en absolute
+     et chevauche pendant la transition. */
+  .timeline-flip-front {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .timeline-flip-back {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .timeline-flip-card.flipped .timeline-flip-front {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  .timeline-flip-card.flipped .timeline-flip-back {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* ===== PROJECTS SECTION ===== */
 .projects-section {
   background: linear-gradient(180deg, transparent 0%, var(--glass-bg) 100%);
