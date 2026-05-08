@@ -519,14 +519,14 @@ class DetailView {
           <p>J'ai participé à deux reprises à la <strong>Nuit de l'Info</strong>, un événement national où des équipes d'étudiants doivent concevoir un site web complet en une seule nuit, sur un thème imposé, tout en relevant de nombreux défis.</p>
 
           <h4>Édition 2024 - Première participation</h4>
-          <p>Ma première participation m'a permis de découvrir cet événement intense. J'ai appris à travailler sous contrainte de temps, à collaborer efficacement en équipe et à développer rapidement des solutions fonctionnelles. Cette expérience a renforcé mes compétences en développement web, en gestion de projet et en résolution de problèmes, tout en apprenant à gérer la fatigue.</p>
+          <p>Ma première participation m'a permis de découvrir cet événement intense. J'ai appris à travailler <strong>sous contrainte de temps</strong>, à <strong>collaborer efficacement en équipe</strong> et à <strong>développer rapidement</strong> des solutions fonctionnelles. Cette expérience a renforcé mes compétences en développement web, en gestion de projet et en résolution de problèmes, tout en apprenant à gérer la fatigue.</p>
 
           <h4>Édition 2025 - Deuxième participation</h4>
-          <p>Pour cette deuxième participation, j'ai constaté une nette progression tant sur le plan technique — avec une plus grande rapidité dans les phases de conception, développement et déploiement — que sur le plan humain.</p>
+          <p>Pour cette deuxième participation, j'ai constaté une <strong>nette progression</strong> tant sur le plan technique (avec une plus grande rapidité dans les phases de conception, de développement et de déploiement) que sur le plan humain.</p>
 
-          <p>La gestion de notre équipe s'est déroulée de manière exemplaire : coordination efficace, répartition claire des tâches et communication fluide. Résultat : un projet finalisé en avance, sans le stress de la dernière minute.</p>
+          <p>La gestion de notre équipe s'est déroulée de manière exemplaire : <strong>coordination efficace</strong>, <strong>répartition claire des tâches</strong> et <strong>communication fluide</strong>. Résultat : un projet <strong>finalisé en avance</strong>, sans le stress de la dernière minute.</p>
 
-          <p>Durant cette édition, nous avons développé le site principal, une extension navigateur pour bloquer les éléments indésirables, et un site d'information sur les <a href="https://fr.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures" target="_blank" rel="noopener noreferrer">CVE</a>.</p>
+          <p>Durant cette édition, nous avons développé le <strong>site principal</strong>, une <strong>extension navigateur</strong> pour bloquer les éléments indésirables, et un <strong>site d'information</strong> sur les <a href="https://fr.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures" target="_blank" rel="noopener noreferrer">CVE</a>.</p>
         `,
         links: [
           { text: 'Site NDI 2025', url: 'https://ndi.0v41n.fr/' },
@@ -536,8 +536,8 @@ class DetailView {
         tech: ['img/logo/logo html.png', 'img/logo/logo css.svg', 'img/logo/logo js.png']
       },
       'encheres': {
-        title: 'J\'avenchère — Plateforme d\'enchères sécurisées',
-        date: 'Semestre 4 — 2025/2026',
+        title: 'J\'avenchère : Plateforme d\'enchères sécurisées',
+        date: 'Semestre 4 (2025/2026)',
         type: 'Projet académique',
         logo: 'img/logo-ppe/javenchere.png',
         content: `
@@ -553,7 +553,7 @@ class DetailView {
           <h4>Sécurité cryptographique</h4>
           <p>Le cœur du projet est cryptographique. Les montants des enchères sont chiffrés avec <strong>Damgård-Jurik</strong> (chiffrement asymétrique <em>linéairement homomorphe</em>, clés 2048 bits), permettant au serveur de manipuler les enchères chiffrées sans jamais avoir accès aux montants en clair.</p>
 
-          <p>La clé privée de dépouillement est protégée par le <strong>Secret de Shamir</strong> : elle est découpée en plusieurs parts distribuées à des gardiens, et sa reconstruction exige la coopération d'un nombre minimal d'entre eux — aucun administrateur seul ne peut déchiffrer les enchères.</p>
+          <p>La clé privée de dépouillement est protégée par le <strong>Secret de Shamir</strong> : elle est découpée en plusieurs parts distribuées à des gardiens, et sa reconstruction exige la coopération d'un nombre minimal d'entre eux. Conséquence : <strong>aucun administrateur seul ne peut déchiffrer les enchères</strong>.</p>
 
           <p>Chaque enchère est <strong>signée RSA 4096 bits</strong> par l'acheteur pour garantir authenticité et non-répudiation. La messagerie privée entre acheteurs et vendeurs est chiffrée en <strong>AES-256-GCM</strong> (clé symétrique unique par conversation, IV aléatoire par message). Les communications réseau transitent sur un canal <strong>TLS</strong>.</p>
 
@@ -573,7 +573,7 @@ class DetailView {
           <p>Projet conduit en méthodologie <strong>Agile / SCRUM</strong> sur des sprints de 3 à 4 semaines, avec restitution au client à la fin de chaque itération. Code versionné sur GitLab avec branches par fonctionnalité, tests unitaires et d'intégration, application de design patterns (Factory, MVC) pour la maintenabilité.</p>
 
           <h4>Ce que j'en retiens</h4>
-          <p>Une plongée concrète dans la cryptographie appliquée — chiffrement homomorphe, partage de secret, signatures —, le travail en équipe en agile, et la conception d'une application Java structurée et testable. J'ai notamment éprouvé la robustesse du logiciel contre des attaques classiques : Man-in-the-Middle, injections SQL, tentatives de falsification d'enchères.</p>
+          <p>Une <strong>plongée concrète dans la cryptographie appliquée</strong> (chiffrement homomorphe, partage de secret, signatures), le <strong>travail en équipe en agile</strong>, et la conception d'une application Java structurée et testable. J'ai notamment <strong>éprouvé la robustesse</strong> du logiciel contre des attaques classiques : <strong>Man-in-the-Middle</strong>, <strong>injections SQL</strong>, tentatives de falsification d'enchères.</p>
 
           <p style="font-size: 0.9em; color: var(--text-light); margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
             Projet réalisé en équipe avec Jordi Rocafort et Rayane Smaili. Encadré par M. Laguillaumie et Mme. Mazars Chapelon.
@@ -594,18 +594,18 @@ class DetailView {
 
           <p>L'idée est simple : entrer le nom d'une ville, un rayon, et le programme construit automatiquement une maquette 3D complète avec les bâtiments, les rues et le relief du terrain. Le tout est explorable librement.</p>
 
-          <p>Ce programme a été développé en Python et m'a permis de me familiariser avec ce langage de programmation très célèbre mais que j'avais pourtant très rarement utilisé.</p>
+          <p>Ce programme a été développé en <strong>Python</strong> et m'a permis de me familiariser avec ce langage de programmation très célèbre mais que j'avais pourtant très rarement utilisé.</p>
 
           <h4>Les défis techniques</h4>
-          <p>Le plus gros challenge a été l'optimisation des ressources. Malgré le fait que je possède un ordinateur doté d'une puissance de calcul remarquable. Générer Paris avec ses <strong>123 937 bâtiments</strong> demande énormément de calculs. J'ai donc implémenté un système de <a href="https://fr.wikipedia.org/wiki/Symmetric_multiprocessing" target="_blank">multiprocessing</a> qui exploite tous les cœurs du processeur, ainsi qu'une fusion rapide des <a href="https://support.esri.com/fr-fr/gis-dictionary/mesh" target="_blank"> meshes</a> pour éviter les goulots d'étranglement.</p>
-          <p>Il m'a également fallu mettre en place <a href="https://fr.wikipedia.org/wiki/Projection_conique_conforme_de_Lambert" target="_blank">la projection de Lambert</a>. La projection de Lambert est une projection cartographique qui représente fidèlement les méridiens sur la France métropolitaine.</p>
+          <p>Le plus gros challenge a été l'<strong>optimisation des ressources</strong>. Même avec un ordinateur puissant, générer Paris et ses <strong>123 937 bâtiments</strong> demande énormément de calculs. J'ai donc implémenté un système de <a href="https://fr.wikipedia.org/wiki/Symmetric_multiprocessing" target="_blank">multiprocessing</a> qui exploite <strong>tous les cœurs du processeur</strong>, ainsi qu'une fusion rapide des <a href="https://support.esri.com/fr-fr/gis-dictionary/mesh" target="_blank">meshes</a> pour éviter les goulots d'étranglement.</p>
+          <p>Il m'a également fallu mettre en place <a href="https://fr.wikipedia.org/wiki/Projection_conique_conforme_de_Lambert" target="_blank">la projection de Lambert</a>, une projection cartographique qui représente fidèlement les méridiens sur la France métropolitaine.</p>
 
           <h4>Projection de Lambert</h4>
           <img src="img/lambert.png" alt="Projection de Lambert" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
 
 
           <h4>Ce que j'ai appris</h4>
-          <p>Ce projet m'a permis de découvrir le traitement de données géospatiales (OpenStreetMap, données d'élévation SRTM), la visualisation 3D avec PyVista, et surtout l'optimisation de code Python pour des calculs intensifs.</p>
+          <p>Ce projet m'a permis de découvrir le <strong>traitement de données géospatiales</strong> (OpenStreetMap, données d'élévation SRTM), la <strong>visualisation 3D avec PyVista</strong>, et surtout l'<strong>optimisation de code Python</strong> pour des calculs intensifs.</p>
 
           <p>J'ai réalisé des rendus de plusieurs villes françaises :</p>
 
@@ -667,9 +667,9 @@ Résultat : mEUh meuH
         type: 'Projet académique',
         // logo: 'img/logo/pokemon.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
         content: `
-          <p>Lors de ma première année de BUT Informatique, j'ai réalisé une reproduction complète du jeu de cartes « Pokémon TCG ». Le projet comprenait le développement de l'intégralité du fonctionnement interne, incluant la gestion des règles du jeu, la logique des combats, et le suivi des cartes.</p>
+          <p>Lors de ma <strong>première année de BUT Informatique</strong>, j'ai réalisé une <strong>reproduction complète du jeu de cartes « Pokémon TCG »</strong>. Le projet comprenait le développement de l'intégralité du fonctionnement interne : la <strong>gestion des règles</strong>, la <strong>logique des combats</strong>, et le <strong>suivi des cartes</strong>.</p>
 
-          <p>J'ai également conçu l'interface utilisateur (IHM) en Java, offrant une expérience interactive et visuelle fidèle au jeu original. Ce projet m'a permis de mettre en pratique la programmation orientée objet, la gestion des événements et l'interaction avec l'utilisateur via une interface graphique.</p>
+          <p>J'ai également conçu l'<strong>interface utilisateur (IHM) en Java</strong>, offrant une expérience interactive et visuelle fidèle au jeu original. Ce projet m'a permis de mettre en pratique la <strong>programmation orientée objet</strong>, la gestion des événements et l'interaction avec l'utilisateur via une interface graphique.</p>
         `,
         tech: ['img/logo/logo java.svg']
       },
@@ -705,7 +705,7 @@ Bonjour  →  Erqmrxu
           </ul>
 
           <h4>Limites et apprentissages</h4>
-          <p>Le chiffrement de César est trivial à casser de nos jours (seulement 25 clés possibles, aisément force-brutées), mais il constitue une <strong>porte d'entrée idéale vers la cryptographie moderne</strong>. Ce projet m'a permis de consolider mes bases en manipulation de chaînes, en arithmétique modulaire, et de découvrir concrètement les concepts de substitution et de clé.</p>
+          <p>Le chiffrement de César est <strong>trivial à casser de nos jours</strong> (seulement 25 clés possibles, cassables par force brute en quelques millisecondes), mais il constitue une <strong>porte d'entrée idéale vers la cryptographie moderne</strong>. Ce projet m'a permis de consolider mes bases en manipulation de chaînes, en arithmétique modulaire, et de découvrir concrètement les concepts de substitution et de clé.</p>
         `,
         github: 'https://github.com/flothival/chiffrement-jules-cesar',
         tech: ['img/logo/logo java.svg']
@@ -754,10 +754,10 @@ Bonjour  →  Erqmrxu
           au Lycée Jean Mermoz.</p>
 
           <h4>Filière</h4>
-          <p>Le parcours technologique a permis la découverte de l'électronique et des
-          principes fondamentaux de l'ingénierie, éveillant un attrait durable pour
-          les systèmes techniques et leur fonctionnement — une appétence qui s'est ensuite
-          prolongée naturellement vers l'informatique en BUT.</p>
+          <p>Le parcours technologique a permis la découverte de l'<strong>électronique</strong>
+          et des <strong>principes fondamentaux de l'ingénierie</strong>, éveillant un attrait
+          durable pour les systèmes techniques et leur fonctionnement : une appétence qui
+          s'est ensuite prolongée naturellement vers l'informatique en BUT.</p>
 
           <h4>Ce que cette période m'a apporté</h4>
           <ul>
@@ -943,6 +943,12 @@ class InfiniteCarousel {
   constructor(trackSelector) {
     this.track = document.querySelector(trackSelector);
     if (!this.track) return;
+
+    // Sur téléphone (≤ 768px) on n'active pas le carrousel : la CSS affiche
+    // une grille statique. Pas de duplication d'items, pas d'animation.
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      return;
+    }
 
     this.speed = 1; // vitesse défilement pc
     this.position = 0;

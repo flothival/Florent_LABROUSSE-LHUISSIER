@@ -147,6 +147,12 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--spacing-sm);
 }
 
+/* `<strong>` doit ressortir : Inter 700 explicite (sinon le navigateur
+   tombait sur 600 quand seul 600 était chargé, rendu trop discret). */
+strong, b {
+  font-weight: 700;
+}
+
 a {
   color: var(--color-primary);
   text-decoration: none;
@@ -998,7 +1004,7 @@ button {
    Firefox a des bugs persistants avec preserve-3d + backface-visibility +
    face en position:absolute (back face visible à travers, glitches de
    layout, sauts de hauteur). Sur Firefox uniquement, on désactive la
-   rotation 3D et on remplace par un slide+fade horizontal — même
+   rotation 3D et on remplace par un slide+fade horizontal : même
    intention visuelle, zéro 3D, zéro bug. Chrome/Edge/Safari gardent
    l'animation flip d'origine. */
 @-moz-document url-prefix() {
@@ -1861,6 +1867,313 @@ button:focus-visible {
     right: 16px;
     width: 42px;
     height: 42px;
+  }
+}
+
+/* ===== MOBILE-OPTIMIZED EXPERIENCE (≤ 768px) =====
+   Bloc dédié pour téléphone, sans toucher au desktop. Vient APRÈS les
+   media queries existantes pour les écraser proprement.
+   Ce qui change sur téléphone :
+   - Carrousel infini d'outils → grille statique 4 colonnes (3 sur très petit).
+   - Flip 3D timeline → empilement vertical des deux vues, labels statiques.
+   - Descriptions des cartes tronquées à 2 lignes (ouverture pour la suite).
+   - Marges, paddings, tailles de police réduits.
+   - Hover désactivés (pas de pointer fin sur tactile). */
+@media (max-width: 768px) {
+
+  /* === Section "À propos" : texte plus lisible sur écran étroit === */
+  .about-text {
+    font-size: var(--text-base);
+    text-align: left;
+    line-height: 1.7;
+  }
+
+  /* === Outils maîtrisés : grille statique au lieu du carrousel === */
+  .skills-carousel {
+    overflow: visible;
+    padding: var(--spacing-md) 0;
+    margin-top: var(--spacing-md);
+  }
+
+  .skills-track {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-sm);
+    transform: none !important;
+    animation: none !important;
+    will-change: auto;
+  }
+
+  .skill-item {
+    min-width: 0;
+    padding: var(--spacing-sm) var(--spacing-xs);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(var(--glass-blur));
+    opacity: 1;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .skill-item img {
+    width: 36px;
+    height: 36px;
+    filter: drop-shadow(0 2px 4px rgba(0, 102, 255, 0.15));
+  }
+
+  .skill-item span {
+    font-size: 0.7rem;
+    text-align: center;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  /* Pas de hover sur tactile */
+  .skill-item:hover,
+  .skill-item:hover img {
+    transform: none;
+    opacity: 1;
+    filter: drop-shadow(0 2px 4px rgba(0, 102, 255, 0.15));
+  }
+
+  /* === Timeline : on supprime le flip, les deux vues sont empilées === */
+  .timeline-track-indicator {
+    display: none;
+  }
+
+  .timeline-flip-btn {
+    display: none;
+  }
+
+  .timeline-flip-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .timeline-flip-stage {
+    perspective: none;
+    width: 100%;
+    flex: none;
+  }
+
+  .timeline-flip-card {
+    transform: none !important;
+    transform-style: flat;
+    height: auto !important;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    transition: none;
+  }
+
+  /* Les deux faces sont visibles, en flot normal */
+  .timeline-flip-face {
+    position: relative !important;
+    width: 100%;
+    transform: none !important;
+    opacity: 1 !important;
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+    pointer-events: auto !important;
+  }
+
+  /* Labels statiques avant chaque face */
+  .timeline-flip-front::before,
+  .timeline-flip-back::before {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .timeline-flip-front::before {
+    content: 'Études';
+  }
+
+  .timeline-flip-back::before {
+    content: 'Expériences';
+  }
+
+  /* Cartes timeline plus compactes */
+  .timeline-content {
+    padding: var(--spacing-md);
+  }
+
+  .timeline-content h3 {
+    font-size: var(--text-base);
+    line-height: 1.3;
+  }
+
+  .timeline-content p {
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    /* Tronquer à 2 lignes : le contenu complet reste visible via le tap */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .timeline-date {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+  }
+
+  .timeline-tags {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  /* Markers plus petits */
+  .timeline-marker {
+    width: 12px;
+    height: 12px;
+    left: -34px;
+    border-width: 3px;
+    box-shadow: 0 0 0 2px var(--color-primary);
+  }
+
+  .timeline-marker-stage {
+    box-shadow: 0 0 0 2px var(--color-stage);
+  }
+
+  .timeline-marker-future {
+    box-shadow: 0 0 0 2px var(--color-future);
+  }
+
+  /* Hover désactivé sur tactile */
+  .timeline-content:hover,
+  .timeline-item[data-clickable="true"] .timeline-content:hover {
+    transform: none;
+    background: var(--bg-card);
+  }
+
+  /* La flèche cliquable reste visible en permanence (pas de hover sur tactile) */
+  .timeline-item[data-clickable="true"] .timeline-content::after {
+    opacity: 0.5;
+    font-size: var(--text-lg);
+    right: var(--spacing-sm);
+  }
+
+  /* === Cartes projets : plus compactes, hover désactivé === */
+  .project-card {
+    min-height: 0;
+    padding: var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+
+  .project-card:hover {
+    transform: none;
+  }
+
+  .project-header h3 {
+    font-size: var(--text-lg);
+    line-height: 1.3;
+  }
+
+  .project-date {
+    font-size: 0.75rem;
+  }
+
+  .project-expand-btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
+  /* === Hero : plus compact === */
+  .hero-image-wrapper {
+    width: 180px;
+    height: 180px;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .hero-cta {
+    gap: var(--spacing-sm);
+  }
+
+  .hero-cta .btn {
+    width: 100%;
+    max-width: 280px;
+    padding: 12px 24px;
+  }
+
+  /* === Sections : moins de padding vertical === */
+  .section {
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  .section-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  /* === Vue projet plein écran : marges réduites === */
+  .project-view-main p {
+    text-align: left;
+    font-size: 0.95rem;
+  }
+
+  .project-view-main h4 {
+    font-size: var(--text-lg);
+    margin-top: var(--spacing-lg);
+  }
+
+  /* === Footer scroll-to-top : plus petit === */
+  .scroll-to-top {
+    bottom: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .scroll-to-top svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* === Contact : icônes à la même taille (les emojis varient selon l'OS,
+     on force une boîte fixe pour les trois) === */
+  .contact-icon,
+  .contact-icon-img {
+    width: 36px;
+    height: 36px;
+    font-size: 1.75rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: contain;
+  }
+}
+
+/* === Téléphones très étroits (≤ 480px) : 3 colonnes pour les outils === */
+@media (max-width: 480px) {
+  .skills-track {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .skill-item img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .skill-item span {
+    font-size: 0.65rem;
+  }
+
+  .hero-image-wrapper {
+    width: 150px;
+    height: 150px;
+  }
+
+  .timeline-flip-front::before,
+  .timeline-flip-back::before {
+    font-size: var(--text-base);
   }
 }
 
