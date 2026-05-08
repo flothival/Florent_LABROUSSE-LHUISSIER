@@ -8,46 +8,6 @@ function setupAutoTheme() {
   }
 }
 
-// ===== DOWNLOAD CV =====
-function downloadCV(event) {
-  event.preventDefault();
-  const link = event.currentTarget;
-  const url = link.href;
-
-  // Si on est sur file://, utiliser le lien direct avec download
-  if (window.location.protocol === 'file:') {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'curriculum vitae.pdf';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    return;
-  }
-
-  // Sur serveur HTTP/HTTPS, utiliser fetch pour forcer le téléchargement
-  fetch(url)
-    .then(response => response.blob())
-    .then(blob => {
-      const blobUrl = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = 'curriculum vitae.pdf';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(blobUrl);
-    })
-    .catch(() => {
-      // Fallback: lien direct si fetch échoue
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'curriculum vitae.pdf';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    });
-}
 
 // ===== PIXEL ART BACKGROUND =====
 class PixelArtBackground {
@@ -238,7 +198,6 @@ class ScrollSpyNavigation {
   }
 
   setupScrollSpy() {
-    // Utiliser scroll event pour plus de précision
     let scrollTimer;
     window.addEventListener('scroll', () => {
       clearTimeout(scrollTimer);
@@ -247,12 +206,11 @@ class ScrollSpyNavigation {
       }, 50);
     }, { passive: true });
 
-    // Mise à jour initiale
     this.updateActiveSection();
   }
 
   updateActiveSection() {
-    const scrollPosition = window.scrollY + 200; // Offset pour la navigation
+    const scrollPosition = window.scrollY + 200;
 
     let currentSection = 'hero';
 
@@ -401,97 +359,162 @@ class TypedText {
   }
 }
 
-// ===== PROJECT MODAL =====
-class ProjectModal {
+// ===== DETAIL VIEW (FULL PAGE) - shared between projects and clickable timeline items =====
+class DetailView {
   constructor() {
-    this.modal = document.getElementById('projectModal');
-    this.modalBody = document.getElementById('modalBody');
-    this.closeBtn = document.querySelector('.modal-close');
-    this.overlay = document.querySelector('.modal-overlay');
-    this.projectData = this.getProjectData();
+    this.view = document.getElementById('projectView');
+    this.viewContent = document.getElementById('projectViewContent');
+    this.itemData = this.getItemData();
+    this.savedScrollY = 0;
     this.init();
   }
 
   init() {
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        if (!e.target.closest('.project-expand-btn')) return;
-        const projectId = card.dataset.projectId;
-        this.open(projectId);
+    if (!this.view) return;
+
+    // Project cards: always clickable.
+    // Timeline items: only those with data-clickable="true".
+    const cards = document.querySelectorAll(
+      '.project-card[data-item-id], .timeline-item[data-clickable="true"][data-item-id]'
+    );
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const id = card.dataset.itemId;
+        this.open(id);
       });
     });
 
-    this.closeBtn?.addEventListener('click', () => this.close());
-    this.overlay?.addEventListener('click', () => this.close());
-
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.modal.classList.contains('active')) {
+      if (e.key === 'Escape' && this.view.classList.contains('active')) {
         this.close();
       }
     });
   }
 
-  open(projectId) {
-    const project = this.projectData[projectId];
-    if (!project) return;
+  open(itemId) {
+    const item = this.itemData[itemId];
+    if (!item) return;
 
-    this.modalBody.innerHTML = this.generateModalContent(project);
-    this.modal.classList.add('active');
+    this.savedScrollY = window.scrollY;
+    this.viewContent.innerHTML = this.generateViewContent(item);
+    this.view.classList.add('active');
+    this.view.scrollTop = 0;
     document.body.style.overflow = 'hidden';
+
+    const backBtn = this.view.querySelector('.project-view-back');
+    if (backBtn) {
+      backBtn.addEventListener('click', () => this.close());
+    }
   }
 
   close() {
-    this.modal.classList.remove('active');
+    this.view.classList.remove('active');
     document.body.style.overflow = '';
+    window.scrollTo(0, this.savedScrollY);
   }
 
-  generateModalContent(project) {
-    let content = `
-      <h2>${project.title}</h2>
-      <p><strong>Date:</strong> ${project.date}</p>
-      <p><strong>Type:</strong> ${project.type}</p>
-      ${project.content}
-    `;
+  // Map a French type label to a CSS modifier for the sidebar pill
+  typeToClass(type) {
+    const t = type.toLowerCase();
+    if (t.includes('personnel')) return 'personal';
+    if (t.includes('académique') || t.includes('academique')) return 'academic';
+    if (t.includes('formation') || t.includes('études') || t.includes('etudes') || t.includes('diplôme') || t.includes('diplome')) return 'academic';
+    if (t.includes('stage')) return 'stage';
+    if (t.includes('emploi')) return 'emploi';
+    if (t.includes('recherche')) return 'recherche';
+    return 'personal';
+  }
 
-    if (project.github) {
-      content += `
-        <p style="margin-top: 2rem;">
-          Plus d'infos sur
-          <a href="${project.github}" target="_blank" rel="noopener noreferrer">
-            <img class="logo" src="img/logo/logo github.svg" alt="Logo GitHub">
-          </a>
-        </p>
-      `;
-    }
+  generateViewContent(item) {
+    const typeClass = this.typeToClass(item.type);
 
-    if (project.links) {
-      content += `<div style="margin-top: 2rem;"><strong>Liens:</strong><ul>`;
-      project.links.forEach(link => {
-        content += `<li><a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.text}</a></li>`;
-      });
-      content += `</ul></div>`;
-    }
+    let sidebarBlocks = '';
 
-    if (project.tech) {
-      content += `
-        <div style="margin-top: 2rem;">
-          <strong>Technologies:</strong>
-          <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
-            ${project.tech.map(t => `<img src="${t}" alt="Tech logo" style="width: 32px; height: 32px;">`).join('')}
+    // Logo block: rendu uniquement si item.logo est défini (string ou objet {src, alt})
+    if (item.logo) {
+      const src = typeof item.logo === 'string' ? item.logo : item.logo.src;
+      const alt = (typeof item.logo === 'object' && item.logo.alt) ? item.logo.alt : item.title;
+      sidebarBlocks += `
+        <div class="sidebar-block sidebar-block-logo">
+          <div class="project-view-logo">
+            <img src="${src}" alt="${alt}">
           </div>
         </div>
       `;
     }
 
-    return content;
+    sidebarBlocks += `
+      <div class="sidebar-block">
+        <strong>Informations</strong>
+        <div class="sidebar-info-row">
+          <span class="sidebar-label">Date</span>
+          <span class="sidebar-value">${item.date}</span>
+        </div>
+        <div class="sidebar-info-row">
+          <span class="sidebar-label">Type</span>
+          <span class="project-view-type ${typeClass}">${item.type}</span>
+        </div>
+      </div>
+    `;
+
+    if (item.tech && item.tech.length > 0) {
+      sidebarBlocks += `
+        <div class="sidebar-block">
+          <strong>Technologies</strong>
+          <div class="project-view-tech-logos">
+            ${item.tech.map(t => `<img src="${t}" alt="Tech logo">`).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    if (item.github || item.links) {
+      let linksHtml = '';
+      if (item.github) {
+        linksHtml += `<a href="${item.github}" target="_blank" rel="noopener noreferrer">
+          <img class="logo" src="img/logo/logo github.svg" alt="GitHub" style="display:inline;width:20px;height:20px;vertical-align:middle;margin-right:6px;">GitHub
+        </a>`;
+      }
+      if (item.links) {
+        item.links.forEach(link => {
+          linksHtml += `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.text}</a>`;
+        });
+      }
+      sidebarBlocks += `
+        <div class="sidebar-block">
+          <strong>Liens</strong>
+          <div class="project-view-links">${linksHtml}</div>
+        </div>
+      `;
+    }
+
+    return `
+      <button class="project-view-back" aria-label="Retour">&larr; Retour</button>
+
+      <div class="project-view-hero">
+        <h1>${item.title}</h1>
+      </div>
+
+      <div class="project-view-layout">
+        <div class="project-view-main">
+          ${item.content}
+        </div>
+        <aside class="project-view-sidebar">
+          ${sidebarBlocks}
+        </aside>
+      </div>
+    `;
   }
 
-  getProjectData() {
+  getItemData() {
     return {
+      // ===== Projets =====
       'ndi': {
         title: 'Nuit de l\'Info - 2 éditions',
         date: '2024 & 2025',
         type: 'Projet personnel',
+        logo: 'img/logo-ppe/ndi.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
         content: `
           <p>J'ai participé à deux reprises à la <strong>Nuit de l'Info</strong>, un événement national où des équipes d'étudiants doivent concevoir un site web complet en une seule nuit, sur un thème imposé, tout en relevant de nombreux défis.</p>
 
@@ -513,22 +536,48 @@ class ProjectModal {
         tech: ['img/logo/logo html.png', 'img/logo/logo css.svg', 'img/logo/logo js.png']
       },
       'encheres': {
-        title: 'Plateforme de vente aux enchères communicantes et sécurisées',
-        date: 'Deuxième semestre 2026',
+        title: 'J\'avenchère — Plateforme d\'enchères sécurisées',
+        date: 'Semestre 4 — 2025/2026',
         type: 'Projet académique',
+        logo: 'img/logo-ppe/javenchere.png',
         content: `
-          <p>Dans le cadre de ma deuxième année de BUT Informatique, j'ai développé un logiciel d'enchères basé sur le principe de Vickrey (enchères à plis fermés). Ce projet comprend une interface graphique en JavaFX, la communication en temps réel entre un vendeur et plusieurs enchérisseurs, ainsi qu'une interface d'administration permettant de gérer les utilisateurs et de suivre l'évolution des enchères.</p>
+          <p><strong>J'avenchère</strong> est une application client-serveur Java d'<strong>enchères électroniques sécurisées à plis fermés</strong>, développée en équipe sur le semestre 4 du BUT Informatique (SAE de fin de 2ème année).</p>
 
-          <p>L'ensemble des informations échangées entre le serveur et les différents clients est chiffré par le biais de sécurités cryptographiques.</p>
+          <p>Le projet repose sur le principe de <strong>Vickrey</strong> : les enchérisseurs soumettent leurs offres de manière confidentielle, sans connaissance des montants des autres, et le gagnant paie le montant de la <em>deuxième</em> offre la plus haute. Ce mécanisme incite chaque participant à proposer exactement ce qu'il est prêt à payer, plutôt qu'à adapter sa stratégie aux autres.</p>
 
-          <p>Ce projet m'a permis d'explorer en profondeur certains aspects de la cybersécurité, notamment en sécurisant la communication entre les différents clients. J'ai également essayé d'attaquer notre logiciel avec différents types d'attaques : Man in the Middle, injections SQL...</p>
+          <h4>Cas d'utilisation</h4>
+          <p>Quatre acteurs principaux : <strong>acheteur</strong>, <strong>vendeur</strong>, <strong>administrateur</strong> et <strong>serveur</strong>. Les acheteurs consultent les annonces et déposent leurs offres chiffrées, les vendeurs créent et gèrent leurs ventes, et l'administrateur supervise la plateforme et le mécanisme cryptographique.</p>
 
-          <img src="img/img-projets/j'avenchère co.png" alt="Interface de connexion j'avenchère" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+          <img src="img/img-projets/javenchere/image1.png" alt="Diagramme des cas d'utilisation" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
 
-          <img src="img/img-projets/j'avenchère admin.png" alt="Interface de l'administrateur de j'avenchère" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+          <h4>Sécurité cryptographique</h4>
+          <p>Le cœur du projet est cryptographique. Les montants des enchères sont chiffrés avec <strong>Damgård-Jurik</strong> (chiffrement asymétrique <em>linéairement homomorphe</em>, clés 2048 bits), permettant au serveur de manipuler les enchères chiffrées sans jamais avoir accès aux montants en clair.</p>
 
+          <p>La clé privée de dépouillement est protégée par le <strong>Secret de Shamir</strong> : elle est découpée en plusieurs parts distribuées à des gardiens, et sa reconstruction exige la coopération d'un nombre minimal d'entre eux — aucun administrateur seul ne peut déchiffrer les enchères.</p>
 
-          <p><strong>Technologies utilisées:</strong> Java / JavaFX</p>
+          <p>Chaque enchère est <strong>signée RSA 4096 bits</strong> par l'acheteur pour garantir authenticité et non-répudiation. La messagerie privée entre acheteurs et vendeurs est chiffrée en <strong>AES-256-GCM</strong> (clé symétrique unique par conversation, IV aléatoire par message). Les communications réseau transitent sur un canal <strong>TLS</strong>.</p>
+
+          <h4>Architecture client-serveur multi-threadée</h4>
+          <p>Application Java 21. Le serveur écoute sur un port configurable et crée un thread dédié par client connecté pour gérer plusieurs utilisateurs simultanés sans blocage. Communications sérialisées en JSON sur TCP/TLS, plus de 25 actions distinctes exposées (authentification, ventes, enchères, messagerie, gestion cryptographique). L'ensemble est <strong>dockerisé</strong> pour faciliter le déploiement.</p>
+
+          <img src="img/img-projets/javenchere/image13.png" alt="Diagramme d'architecture client-serveur" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+
+          <h4>Interface graphique JavaFX</h4>
+          <p>L'interface a été développée en JavaFX avec un thème clair/sombre, l'intégration d'une carte pour localiser les annonces, des photos de produits et de profil, une messagerie sécurisée intégrée, et des notifications email à la clôture des ventes.</p>
+
+          <img src="img/img-projets/javenchere/image10.png" alt="Interface de connexion" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+
+          <img src="img/img-projets/javenchere/image21.png" alt="Interface avec carte des annonces" style="width: 100%; border-radius: 8px; margin: 0.5rem 0 1.5rem;">
+
+          <h4>Démarche projet</h4>
+          <p>Projet conduit en méthodologie <strong>Agile / SCRUM</strong> sur des sprints de 3 à 4 semaines, avec restitution au client à la fin de chaque itération. Code versionné sur GitLab avec branches par fonctionnalité, tests unitaires et d'intégration, application de design patterns (Factory, MVC) pour la maintenabilité.</p>
+
+          <h4>Ce que j'en retiens</h4>
+          <p>Une plongée concrète dans la cryptographie appliquée — chiffrement homomorphe, partage de secret, signatures —, le travail en équipe en agile, et la conception d'une application Java structurée et testable. J'ai notamment éprouvé la robustesse du logiciel contre des attaques classiques : Man-in-the-Middle, injections SQL, tentatives de falsification d'enchères.</p>
+
+          <p style="font-size: 0.9em; color: var(--text-light); margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+            Projet réalisé en équipe avec Jordi Rocafort et Rayane Smaili. Encadré par M. Laguillaumie et Mme. Mazars Chapelon.
+          </p>
         `,
         tech: ['img/logo/logo java.svg']
       },
@@ -536,6 +585,7 @@ class ProjectModal {
         title: 'Geospatial Vector Extrusion',
         date: 'Janvier 2026',
         type: 'Projet personnel',
+        // logo: 'img/logo/geospatial.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
         content: `
           <p>Ce projet représente l'un de mes travaux les plus ambitieux. Passionné à la fois par l'informatique et la cartographie, j'ai voulu allier ces deux domaines en créant un outil capable de <strong>générer des visualisations 3D de données cartographiques</strong>.</p>
 
@@ -574,13 +624,39 @@ class ProjectModal {
         tech: ['img/logo/logo python.png']
       },
       'meuh': {
-        title: 'meuh encoding',
+        title: 'MEUH encoding',
         date: 'Mars 2025',
         type: 'Projet personnel',
+        // logo: 'img/logo/meuh.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
         content: `
-          <p>MEUH encoding est une application Java qui explore la cryptographie appliquée au texte de manière originale. Le projet propose un système de chiffrement personnalisé basé sur le mot « MEUH », permettant de transformer un texte en une séquence codée et réversible.</p>
+          <p><strong>MEUH encoding</strong> est un petit projet Java qui encode et décode du texte en utilisant un système binaire personnalisé inspiré du cri de la vache : « MEUH ». 🐄</p>
 
-          <p>Il illustre la création d'un algorithme de cryptage simple mais unique, démontrant comment des principes de cryptographie peuvent être appliqués pour générer des codes lisibles et sécurisables à petite échelle. L'interface en ligne de commande facilite l'encodage et le décodage, rendant l'expérience interactive afin de conserver un aspect pratique pour tester différentes entrées textuelles. 🐄</p>
+          <h4>Principe</h4>
+          <p>Chaque caractère du texte d'entrée est converti en binaire sur 8 bits. Chaque bit est ensuite représenté par l'une des lettres <code>M</code>, <code>E</code>, <code>U</code>, <code>H</code> :</p>
+          <ul>
+            <li><strong>Majuscule</strong> = bit à <code>1</code></li>
+            <li><strong>Minuscule</strong> = bit à <code>0</code></li>
+          </ul>
+          <p>Chaque octet devient ainsi une paire de séquences MEUH (4 bits + 4 bits, séparées par un espace pour la lisibilité).</p>
+
+          <h4>Exemple</h4>
+          <pre style="background: var(--glass-bg); padding: 1rem; border-radius: 8px; font-family: monospace; overflow-x: auto;">
+'a'  →  ASCII 97  →  binaire 01100001
+
+Mapping sur  M E U H   M E U H :
+              0 1 1 0   0 0 0 1
+              m E U h   m e u H
+
+Résultat : mEUh meuH
+          </pre>
+
+          <h4>Décodage</h4>
+          <p>Le processus inverse : chaque majuscule devient <code>1</code>, chaque minuscule devient <code>0</code>, et chaque groupe de 8 bits est reconverti en caractère ASCII.</p>
+
+          <h4>Pourquoi MEUH ?</h4>
+          <p>Pourquoi pas ? L'idée est née d'une envie de créer un encodage à la fois fonctionnel et un peu absurde. Il illustre comment des principes simples de cryptographie peuvent être appliqués pour générer des codes lisibles et réversibles, tout en gardant un esprit ludique. L'interface en ligne de commande facilite l'encodage et le décodage interactif.</p>
+
+          <img src="img/img-projets/meuh/vache.gif" alt="Vache polonaise" style="width: 100%; max-width: 400px; border-radius: 8px; margin: 1.5rem auto; display: block;">
         `,
         github: 'https://github.com/flothival/meuh-encoding',
         tech: ['img/logo/logo java.svg']
@@ -589,6 +665,7 @@ class ProjectModal {
         title: 'Jeu de cartes Pokémon TCG',
         date: 'Avril 2025',
         type: 'Projet académique',
+        // logo: 'img/logo/pokemon.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
         content: `
           <p>Lors de ma première année de BUT Informatique, j'ai réalisé une reproduction complète du jeu de cartes « Pokémon TCG ». Le projet comprenait le développement de l'intégralité du fonctionnement interne, incluant la gestion des règles du jeu, la logique des combats, et le suivi des cartes.</p>
 
@@ -597,18 +674,229 @@ class ProjectModal {
         tech: ['img/logo/logo java.svg']
       },
       'cesar': {
-        title: 'Chiffrement Jules César',
+        title: 'Chiffrement de Jules César',
         date: 'Octobre 2024',
         type: 'Projet personnel',
+        // logo: 'img/logo/cesar.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
         content: `
-          <p>Un de mes projets en Java a été de réaliser le chiffrement de Jules César. Ce projet explore l'un des plus anciens principes de la cryptographie, popularisé par Jules César lui-même. Développé en Java, ce programme met en œuvre un algorithme de substitution permettant de chiffrer et déchiffrer un texte en décalant les lettres de l'alphabet selon une clé numérique.</p>
+          <p>Le <strong>chiffrement de Jules César</strong> est l'un des plus anciens systèmes de cryptographie connus, utilisé par Jules César lui-même pour transmettre des ordres militaires sous une forme inintelligible à ses ennemis. Cette implémentation Java reproduit ce chiffrement par substitution avec décalage modulaire.</p>
 
-          <p>Ce projet m'a permis de consolider mes connaissances en manipulation de chaînes de caractères, en gestion des entrées utilisateur et en logique algorithmique tout en découvrant les bases de la cryptographie. Son approche simple mais rigoureuse illustre parfaitement comment un concept historique peut être transposé dans un contexte informatique moderne et pédagogique.</p>
+          <img src="img/img-projets/cesar/jules-cesar.jpg" alt="Jules César" style="width: 100%; max-width: 500px; border-radius: 8px; margin: 0.5rem auto 1.5rem; display: block;">
+
+          <h4>Principe</h4>
+          <p>Chaque lettre du message clair est remplacée par celle située un certain nombre de positions plus loin dans l'alphabet, selon une <strong>clé numérique</strong> définie par l'utilisateur. Le décalage utilise un calcul modulaire (<code>mod 26</code>) pour rester dans l'alphabet, et préserve la casse (majuscules et minuscules sont traitées indépendamment). Les caractères non alphabétiques (espaces, ponctuation, chiffres) restent inchangés.</p>
+
+          <img src="img/img-projets/cesar/caesar.png" alt="Schéma du décalage des lettres" style="width: 100%; max-width: 500px; border-radius: 8px; margin: 0.5rem auto 1.5rem; display: block;">
+
+          <h4>Exemple</h4>
+          <p>Avec la clé <code>3</code>, "Bonjour" devient :</p>
+          <pre style="background: var(--glass-bg); padding: 1rem; border-radius: 8px; font-family: monospace; overflow-x: auto;">
+B → E    o → r    n → q    j → m    o → r    u → x    r → u
+
+Bonjour  →  Erqmrxu
+          </pre>
+
+          <h4>Détails techniques</h4>
+          <ul>
+            <li>Java standard, aucune dépendance externe</li>
+            <li>Saisie utilisateur via <code>Scanner</code></li>
+            <li>Logique fondée sur les codes ASCII (A–Z : 65–90, a–z : 97–122)</li>
+            <li>Mode interactif en ligne de commande : chiffrer ou déchiffrer au choix</li>
+          </ul>
+
+          <h4>Limites et apprentissages</h4>
+          <p>Le chiffrement de César est trivial à casser de nos jours (seulement 25 clés possibles, aisément force-brutées), mais il constitue une <strong>porte d'entrée idéale vers la cryptographie moderne</strong>. Ce projet m'a permis de consolider mes bases en manipulation de chaînes, en arithmétique modulaire, et de découvrir concrètement les concepts de substitution et de clé.</p>
         `,
         github: 'https://github.com/flothival/chiffrement-jules-cesar',
         tech: ['img/logo/logo java.svg']
+      },
+
+      // ===== Items du parcours / expériences (cliquables) =====
+      'but': {
+        title: 'Bachelor Universitaire de Technologie (BUT) Informatique',
+        date: '2024 – Aujourd\'hui',
+        type: 'Formation',
+        logo: 'img/logo-ppe/iut2.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
+        content: `
+          <p>Formation actuelle à l'<strong>IUT de Montpellier</strong>, parcours <strong>D.A.C.S</strong>
+          (Déploiement d'Applications Communicantes et Sécurisées), au sein du Bachelor Universitaire de
+          Technologie (BUT) Informatique.</p>
+
+          <h4>Spécialisation</h4>
+          <p>Le parcours D.A.C.S met l'accent sur les <strong>réseaux</strong>, la <strong>cybersécurité</strong>
+          et le <strong>développement d'applications communicantes</strong>. Il s'inscrit dans une logique de
+          montée en compétence progressive sur le bas niveau, l'infrastructure et la sécurisation des systèmes.</p>
+
+          <h4>Domaines abordés</h4>
+          <ul>
+            <li>Programmation orientée objet (Java, Python, C)</li>
+            <li>Bases de données relationnelles (MySQL, Oracle, PL/SQL)</li>
+            <li>Développement web (HTML, CSS, JavaScript, PHP)</li>
+            <li>Réseaux et administration système (Linux, Bash, Docker)</li>
+            <li>Cybersécurité, cryptographie et sécurisation des communications</li>
+            <li>Conduite de projet et travail en équipe</li>
+          </ul>
+
+          <h4>Projets réalisés</h4>
+          <p>De nombreux projets académiques jalonnent la formation, dont la
+          <strong>plateforme d'enchères communicantes et sécurisées</strong> ou encore la
+          <strong>reproduction du jeu Pokémon TCG</strong> en Java. La majorité d'entre eux sont
+          détaillés dans la section <em>Projets</em> du portfolio.</p>
+        `
+      },
+      'bac': {
+        title: 'Baccalauréat – Lycée Jean Mermoz',
+        date: '2021 – 2024',
+        type: 'Diplôme',
+        logo: 'img/logo-ppe/mermoz.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
+        content: `
+          <p>Baccalauréat <strong>technologique</strong> obtenu avec mention <strong>bien</strong>
+          au Lycée Jean Mermoz.</p>
+
+          <h4>Filière</h4>
+          <p>Le parcours technologique a permis la découverte de l'électronique et des
+          principes fondamentaux de l'ingénierie, éveillant un attrait durable pour
+          les systèmes techniques et leur fonctionnement — une appétence qui s'est ensuite
+          prolongée naturellement vers l'informatique en BUT.</p>
+
+          <h4>Ce que cette période m'a apporté</h4>
+          <ul>
+            <li>Bases solides en sciences et en raisonnement logique</li>
+            <li>Premier contact avec l'électronique et les systèmes embarqués</li>
+            <li>Méthode de travail et autonomie</li>
+          </ul>
+        `
+      },
+      'metropole': {
+        title: 'Stage DevOps – Métropole de Montpellier',
+        date: 'Avril – Juin 2026',
+        type: 'Stage',
+        logo: 'img/logo-ppe/metropole.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
+        content: `
+          <p>Stage de fin de deuxième année de BUT Informatique au sein de la <strong>Métropole de Montpellier</strong>, en tant que stagiaire DevOps.</p>
+
+          <h4>Missions</h4>
+          <p>Mise en pratique des concepts DevOps dans un environnement de collectivité territoriale : automatisation de tâches, intégration et déploiement continus (CI/CD), conteneurisation avec Docker, et participation à l'amélioration de l'infrastructure interne.</p>
+
+          <p>Ce stage m'a permis de toucher concrètement aux problématiques d'industrialisation du déploiement logiciel, et de découvrir le quotidien d'une équipe d'infrastructure dans le secteur public.</p>
+
+          <h4>Compétences mobilisées</h4>
+          <ul>
+            <li>Conteneurisation (Docker, Docker Compose)</li>
+            <li>CI/CD et automatisation</li>
+            <li>Administration système Linux</li>
+            <li>Travail en équipe et conduite de projet</li>
+          </ul>
+        `
+      },
+      'proby': {
+        title: 'Stage d\'observation – PROBY',
+        date: 'Avril 2020',
+        type: 'Stage',
+        logo: 'img/logo-ppe/proby.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
+        content: `
+          <p>Premier contact concret avec le monde de l'informatique professionnelle, dans le cadre du stage d'observation de 3ème, effectué au sein du service informatique de l'entreprise <strong>PROBY</strong>.</p>
+
+          <p>Cette immersion d'une semaine m'a permis de découvrir les coulisses d'un service IT en entreprise : la gestion du parc informatique, le support utilisateur, et plus largement le rôle central de l'informatique dans le fonctionnement d'une organisation.</p>
+
+          <p>Une expérience courte mais marquante, qui a confirmé mon intérêt pour ce domaine et orienté la suite de mon parcours scolaire vers l'informatique.</p>
+        `
+      },
+      'alternance2026': {
+        title: 'Recherche d\'alternance',
+        date: 'Septembre 2026',
+        type: 'Recherche',
+        // logo: 'img/logo/alternance.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
+        content: `
+          <p>Je suis actuellement à la recherche d'une <strong>alternance en informatique</strong> pour ma 3ème année de BUT Informatique, parcours <strong>D.A.C.S</strong> (Déploiement d'Applications Communicantes et Sécurisées), à partir de <strong>septembre 2026</strong>.</p>
+
+          <h4>Domaines d'intérêt</h4>
+          <ul>
+            <li>DevOps, infrastructure et automatisation</li>
+            <li>Réseaux et administration système</li>
+            <li>Cybersécurité</li>
+            <li>Développement bas niveau et systèmes embarqués</li>
+          </ul>
+
+          <h4>Rythme</h4>
+          <p>Rythme d'alternance compatible avec le calendrier de l'IUT de Montpellier (à préciser selon l'entreprise). Disponible pour échanger sur les missions, le rythme et les modalités.</p>
+
+          <h4>Profil</h4>
+          <p>Curieux, autonome et motivé, avec une appétence forte pour le bas niveau, les réseaux et la sécurité. Mes projets personnels (visualisation 3D de données géospatiales, chiffrement, Nuit de l'Info) reflètent cette diversité d'intérêts et ma volonté constante d'apprendre.</p>
+
+          <p>Pour discuter d'une opportunité, rendez-vous dans la section <strong>Contact</strong> du portfolio.</p>
+        `
       }
     };
+  }
+}
+
+// ===== TIMELINE FLIP (Études <-> Expériences) =====
+class TimelineFlip {
+  constructor() {
+    this.card = document.getElementById('timelineFlipCard');
+    this.btn = document.getElementById('timelineFlipBtn');
+    this.labels = document.querySelectorAll('.track-label');
+    this.flipped = false;
+
+    if (!this.card || !this.btn) return;
+
+    this.front = this.card.querySelector('.timeline-flip-front');
+    this.back = this.card.querySelector('.timeline-flip-back');
+
+    this.init();
+  }
+
+  init() {
+    this.btn.addEventListener('click', () => this.toggle());
+
+    this.labels.forEach(label => {
+      label.addEventListener('click', () => {
+        this.setView(label.dataset.track);
+      });
+    });
+
+    // Initial height + on resize, recompute (content can wrap differently).
+    requestAnimationFrame(() => this.updateHeight());
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => this.updateHeight(), 150);
+    });
+  }
+
+  toggle() {
+    this.flipped = !this.flipped;
+    this.applyState();
+  }
+
+  setView(track) {
+    const shouldFlip = track === 'experiences';
+    if (this.flipped !== shouldFlip) {
+      this.flipped = shouldFlip;
+      this.applyState();
+    }
+  }
+
+  applyState() {
+    this.card.classList.toggle('flipped', this.flipped);
+    this.btn.classList.toggle('flipped', this.flipped);
+
+    this.labels.forEach(label => {
+      const isParcours = label.dataset.track === 'parcours';
+      const active = (isParcours && !this.flipped) || (!isParcours && this.flipped);
+      label.classList.toggle('active', active);
+    });
+
+    this.updateHeight();
+  }
+
+  updateHeight() {
+    if (!this.front || !this.back) return;
+    // Each face is `width: 100%` (back is absolute). Measure the active face's content.
+    const activeFace = this.flipped ? this.back : this.front;
+    const h = activeFace.offsetHeight;
+    if (h > 0) this.card.style.height = h + 'px';
   }
 }
 
@@ -638,12 +926,14 @@ class ScrollAnimationManager {
   }
 
   markElementsForAnimation() {
-    const elements = document.querySelectorAll('.project-card, .about-grid, .contact-card');
+    const groups = ['.project-card', '.about-grid', '.contact-card'];
 
-    elements.forEach((el, index) => {
-      el.classList.add('animate-on-scroll');
-      el.style.transitionDelay = `${index * 0.1}s`;
-      this.observer.observe(el);
+    groups.forEach(selector => {
+      document.querySelectorAll(selector).forEach((el, index) => {
+        el.classList.add('animate-on-scroll');
+        el.style.transitionDelay = `${index * 0.05}s`;
+        this.observer.observe(el);
+      });
     });
   }
 }
@@ -707,6 +997,48 @@ class InfiniteCarousel {
   }
 }
 
+// ===== SCROLL TO TOP BUTTON =====
+class ScrollToTop {
+  constructor() {
+    this.btn = document.getElementById('scrollToTop');
+    if (!this.btn) return;
+
+    this.threshold = 300;
+    this.projectView = document.getElementById('projectView');
+
+    this.init();
+  }
+
+  init() {
+    window.addEventListener('scroll', () => this.update(), { passive: true });
+    if (this.projectView) {
+      this.projectView.addEventListener('scroll', () => this.update(), { passive: true });
+    }
+    this.btn.addEventListener('click', () => this.scrollToTop());
+    this.update();
+  }
+
+  isViewActive() {
+    return this.projectView && this.projectView.classList.contains('active');
+  }
+
+  currentScroll() {
+    return this.isViewActive() ? this.projectView.scrollTop : window.scrollY;
+  }
+
+  scrollToTop() {
+    if (this.isViewActive()) {
+      this.projectView.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  update() {
+    this.btn.classList.toggle('visible', this.currentScroll() > this.threshold);
+  }
+}
+
 // ===== UTILITY FUNCTIONS =====
 function isTouchDevice() {
   return (('ontouchstart' in window) ||
@@ -732,7 +1064,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   new ScrollSpyNavigation();
   new MobileMenu();
-  new ProjectModal();
+  new DetailView();
+  new TimelineFlip();
+  new ScrollToTop();
 
   const typedTextElement = document.getElementById('typed-text');
   if (typedTextElement) {

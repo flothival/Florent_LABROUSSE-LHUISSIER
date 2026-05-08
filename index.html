@@ -73,7 +73,7 @@
                 <div class="hero-cta">
                     <a href="#projects" class="btn btn-primary">Voir mes projets</a>
                     <a href="#contact" class="btn btn-secondary">Me contacter</a>
-                    <a href="curriculum vitae.pdf" class="btn btn-accent" onclick="downloadCV(event)">
+                    <a href="curriculum vitae.pdf" class="btn btn-accent" target="_blank" rel="noopener noreferrer">
                         Télécharger CV
                     </a>
                 </div>
@@ -118,10 +118,6 @@
                 <div class="skills-carousel">
                     <div class="skills-track">
                         <div class="skill-item">
-                            <img src="img/logo/logo java.svg" alt="Java">
-                            <span>Java</span>
-                        </div>
-                        <div class="skill-item">
                             <img src="img/logo/logo html.png" alt="HTML">
                             <span>HTML</span>
                         </div>
@@ -138,8 +134,16 @@
                             <span>PHP</span>
                         </div>
                         <div class="skill-item">
+                            <img src="img/logo/postman.png" alt="postman">
+                            <span>Postman</span>
+                        </div>
+                        <div class="skill-item">
                             <img src="img/logo/logo python.png" alt="Python">
                             <span>Python</span>
+                        </div>
+                        <div class="skill-item">
+                            <img src="img/logo/logo java.svg" alt="Java">
+                            <span>Java</span>
                         </div>
                         <div class="skill-item">
                             <img src="img/logo/logo c.png" alt="C">
@@ -173,45 +177,130 @@
                             <img src="img/logo/logo oracle.png" alt="Oracle">
                             <span>Oracle Database<br>PL/SQL</span>
                         </div>
+                        <div class="skill-item">
+                            <img src="img/logo/postgresql.png" alt="postgresql">
+                            <span>PostgreSQL</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Timeline Section -->
+        <!-- Timeline Section (Parcours / Expériences avec flip 3D) -->
         <section id="timeline" class="section timeline-section">
             <div class="container-narrow">
                 <h2 class="section-title">Parcours</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h3>Bachelor Universitaire de Technologie (BUT) Informatique</h3>
-                            <span class="timeline-date">2024 – Aujourd'hui</span>
-                            <p>
-                                IUT de Montpellier, parcours D.A.C.S (Déploiement d'applications communicantes et
-                                sécurisées).
-                                Spécialisation en réseaux, cybersécurité et développement.
-                            </p>
-                        </div>
+
+                <div class="timeline-flip-container">
+                    <div class="timeline-track-indicator">
+                        <button type="button" class="track-label active" data-track="parcours">Études</button>
+                        <span class="track-separator">·</span>
+                        <button type="button" class="track-label" data-track="experiences">Expériences</button>
                     </div>
 
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h3>Baccalauréat – Lycée Jean Mermoz</h3>
-                            <span class="timeline-date">2021 - 2024</span>
-                            <p>Baccalauréat mention bien.</p>
-                        </div>
-                    </div>
+                    <div class="timeline-flip-row">
+                        <div class="timeline-flip-stage">
+                            <div class="timeline-flip-card" id="timelineFlipCard">
 
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h3>Stage d'observation – PROBY</h3>
-                            <span class="timeline-date">Avril 2020</span>
-                            <p>Découverte du fonctionnement du service informatique de l'entreprise PROBY.</p>
+                                <!-- Face 1 : Études -->
+                                <div class="timeline-flip-face timeline-flip-front">
+                                    <div class="timeline">
+                                        <div class="timeline-track timeline-track-solid">
+
+                                            <div class="timeline-item" data-item-id="but" data-clickable="true">
+                                                <div class="timeline-marker"></div>
+                                                <div class="timeline-content">
+                                                    <h3>Bachelor Universitaire de Technologie (BUT) Informatique</h3>
+                                                    <span class="timeline-date">2024 – Aujourd'hui</span>
+                                                    <p>
+                                                        IUT de Montpellier, parcours D.A.C.S (Déploiement d'applications
+                                                        communicantes et sécurisées). Spécialisation en réseaux,
+                                                        cybersécurité et développement.
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="timeline-item" data-item-id="bac" data-clickable="true">
+                                                <div class="timeline-marker"></div>
+                                                <div class="timeline-content">
+                                                    <h3>Baccalauréat – Lycée Jean Mermoz</h3>
+                                                    <span class="timeline-date">2021 - 2024</span>
+                                                    <p>Baccalauréat mention bien.</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Face 2 : Expériences (ordre chrono inversé : récent en haut, ancien en bas) -->
+                                <div class="timeline-flip-face timeline-flip-back">
+                                    <div class="timeline">
+
+                                        <div class="timeline-track timeline-track-dashed">
+
+                                            <div class="timeline-item timeline-item-future" data-item-id="alternance2026" data-clickable="true">
+                                                <div class="timeline-marker timeline-marker-future"></div>
+                                                <div class="timeline-content">
+                                                    <h3>Recherche d'alternance</h3>
+                                                    <span class="timeline-date">Septembre 2026</span>
+                                                    <div class="timeline-tags">
+                                                        <span class="tag tag-recherche">Recherche</span>
+                                                    </div>
+                                                    <p>
+                                                        Actuellement à la recherche d'une alternance en informatique
+                                                        pour ma 3ème année de BUT (parcours D.A.C.S), à partir de
+                                                        septembre 2026.
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="timeline-track timeline-track-solid">
+
+                                            <div class="timeline-item" data-item-id="metropole" data-clickable="true">
+                                                <div class="timeline-marker timeline-marker-stage"></div>
+                                                <div class="timeline-content">
+                                                    <h3>Stage DevOps – Métropole de Montpellier</h3>
+                                                    <span class="timeline-date">Avril – Juin 2026</span>
+                                                    <div class="timeline-tags">
+                                                        <span class="tag tag-stage">Stage</span>
+                                                    </div>
+                                                    <p>
+                                                        Stage de fin de deuxième année de BUT Informatique au sein
+                                                        de la Métropole de Montpellier autour des pratiques DevOps :
+                                                        automatisation, intégration continue et infrastructure.
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="timeline-item" data-item-id="proby" data-clickable="true">
+                                                <div class="timeline-marker timeline-marker-stage"></div>
+                                                <div class="timeline-content">
+                                                    <h3>Stage d'observation – PROBY</h3>
+                                                    <span class="timeline-date">Avril 2020</span>
+                                                    <div class="timeline-tags">
+                                                        <span class="tag tag-stage">Stage</span>
+                                                    </div>
+                                                    <p>Découverte du fonctionnement du service informatique de l'entreprise PROBY.</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
+
+                        <button class="timeline-flip-btn" id="timelineFlipBtn" aria-label="Changer de vue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -225,7 +314,7 @@
                 <div class="projects-grid">
 
                     <!-- Projet 1: Geospatial Vector Extrusion -->
-                    <div class="project-card" data-project-id="villes3d">
+                    <div class="project-card" data-item-id="villes3d">
                         <div class="project-header">
                             <h3>Geospatial Vector Extrusion</h3>
                             <span class="project-date">Janvier 2026</span>
@@ -240,7 +329,7 @@
                     </div>
 
                     <!-- Projet 2: Enchères -->
-                    <div class="project-card" data-project-id="encheres">
+                    <div class="project-card" data-item-id="encheres">
                         <div class="project-header">
                             <h3>Plateforme de vente aux enchères communicantes et sécurisées</h3>
                             <span class="project-date">Deuxième semestre 2025</span>
@@ -255,7 +344,7 @@
                     </div>
 
                     <!-- Projet 3: Nuit de l'Info -->
-                    <div class="project-card" data-project-id="ndi">
+                    <div class="project-card" data-item-id="ndi">
                         <div class="project-header">
                             <h3>Nuit de l'Info - 2 éditions</h3>
                             <span class="project-date">2024 & 2025</span>
@@ -273,7 +362,7 @@
 
 
                     <!-- Projet 4: MEUH encoding -->
-                    <div class="project-card" data-project-id="meuh">
+                    <div class="project-card" data-item-id="meuh">
                         <div class="project-header">
                             <h3>meuh encoding</h3>
                             <span class="project-date">Mars 2025</span>
@@ -287,8 +376,8 @@
                         <button class="project-expand-btn">En savoir plus</button>
                     </div>
 
-                    <!-- Projet 4: Pokémon TCG -->
-                    <div class="project-card" data-project-id="pokemon">
+                    <!-- Projet 5: Pokémon TCG -->
+                    <div class="project-card" data-item-id="pokemon">
                         <div class="project-header">
                             <h3>Jeu de cartes Pokémon TCG</h3>
                             <span class="project-date">Avril 2025</span>
@@ -302,8 +391,8 @@
                         <button class="project-expand-btn">En savoir plus</button>
                     </div>
 
-                    <!-- Projet 5: Jules César -->
-                    <div class="project-card" data-project-id="cesar">
+                    <!-- Projet 6: Jules César -->
+                    <div class="project-card" data-item-id="cesar">
                         <div class="project-header">
                             <h3>Chiffrement Jules César</h3>
                             <span class="project-date">Octobre 2024</span>
@@ -393,21 +482,20 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2026 Florent LABROUSSE-LHUISSIER - Tous droits réservés</p>
-    </footer>
-
-    <!-- Modal pour les projets -->
-    <div class="modal" id="projectModal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <button class="modal-close" aria-label="Fermer">&times;</button>
-            <div class="modal-body" id="modalBody">
-                <!-- Contenu dynamique -->
-            </div>
+    <!-- Vue pleine page (projets + items du parcours/expériences cliquables) -->
+    <div class="project-view" id="projectView">
+        <div class="project-view-content" id="projectViewContent">
+            <!-- Contenu dynamique -->
         </div>
     </div>
+
+    <!-- Bouton remonter en haut (visible après scroll, fonctionne aussi dans la vue projet) -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Remonter en haut">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
 
     <script src="script.js"></script>
 </body>
