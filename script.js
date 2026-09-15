@@ -514,7 +514,7 @@ class DetailView {
         title: 'Nuit de l\'Info - 2 éditions',
         date: '2024 & 2025',
         type: 'Projet personnel',
-        logo: 'img/logo-ppe/ndi.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
+        logo: 'img/logo-ppe/ndi.png',  
         content: `
           <p>J'ai participé à deux reprises à la <strong>Nuit de l'Info</strong>, un événement national où des équipes d'étudiants doivent concevoir un site web complet en une seule nuit, sur un thème imposé, tout en relevant de nombreux défis.</p>
 
@@ -585,7 +585,6 @@ class DetailView {
         title: 'Geospatial Vector Extrusion',
         date: 'Janvier 2026',
         type: 'Projet personnel',
-        // logo: 'img/logo/geospatial.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
         content: `
           <p>Ce projet représente l'un de mes travaux les plus ambitieux. Passionné à la fois par l'informatique et la cartographie, j'ai voulu allier ces deux domaines en créant un outil capable de <strong>générer des visualisations 3D de données cartographiques</strong>.</p>
 
@@ -627,7 +626,6 @@ class DetailView {
         title: 'MEUH encoding',
         date: 'Mars 2025',
         type: 'Projet personnel',
-        // logo: 'img/logo/meuh.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
         content: `
           <p><strong>MEUH encoding</strong> est un petit projet Java qui encode et décode du texte en utilisant un système binaire personnalisé inspiré du cri de la vache : « MEUH ». 🐄</p>
 
@@ -665,7 +663,6 @@ Résultat : mEUh meuH
         title: 'Jeu de cartes Pokémon TCG',
         date: 'Avril 2025',
         type: 'Projet académique',
-        // logo: 'img/logo/pokemon.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
         content: `
           <p>Lors de ma <strong>première année de BUT Informatique</strong>, j'ai réalisé une <strong>reproduction complète du jeu de cartes « Pokémon TCG »</strong>. Le projet comprenait le développement de l'intégralité du fonctionnement interne : la <strong>gestion des règles</strong>, la <strong>logique des combats</strong>, et le <strong>suivi des cartes</strong>.</p>
 
@@ -677,7 +674,6 @@ Résultat : mEUh meuH
         title: 'Chiffrement de Jules César',
         date: 'Octobre 2024',
         type: 'Projet personnel',
-        // logo: 'img/logo/cesar.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
         content: `
           <p>Le <strong>chiffrement de Jules César</strong> est l'un des plus anciens systèmes de cryptographie connus, utilisé par Jules César lui-même pour transmettre des ordres militaires sous une forme inintelligible à ses ennemis. Cette implémentation Java reproduit ce chiffrement par substitution avec décalage modulaire.</p>
 
@@ -716,7 +712,7 @@ Bonjour  →  Erqmrxu
         title: 'Bachelor Universitaire de Technologie (BUT) Informatique',
         date: '2024 – Aujourd\'hui',
         type: 'Formation',
-        logo: 'img/logo-ppe/iut2.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
+        logo: 'img/logo-ppe/iut2.png', 
         content: `
           <p>Formation actuelle à l'<strong>IUT de Montpellier</strong>, parcours <strong>D.A.C.S</strong>
           (Déploiement d'Applications Communicantes et Sécurisées), au sein du Bachelor Universitaire de
@@ -748,7 +744,7 @@ Bonjour  →  Erqmrxu
         title: 'Baccalauréat – Lycée Jean Mermoz',
         date: '2021 – 2024',
         type: 'Diplôme',
-        logo: 'img/logo-ppe/mermoz.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
+        logo: 'img/logo-ppe/mermoz.png',  
         content: `
           <p>Baccalauréat <strong>technologique</strong> obtenu avec mention <strong>bien</strong>
           au Lycée Jean Mermoz.</p>
@@ -771,7 +767,7 @@ Bonjour  →  Erqmrxu
         title: 'Stage DevOps – Métropole de Montpellier',
         date: 'Avril – Juin 2026',
         type: 'Stage',
-        logo: 'img/logo-ppe/metropole.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
+        logo: 'img/logo-ppe/metropole.png',  
         content: `
           <p>Stage de fin de deuxième année de BUT Informatique au sein de la <strong>Métropole de Montpellier</strong>, en tant que stagiaire DevOps.</p>
 
@@ -793,7 +789,7 @@ Bonjour  →  Erqmrxu
         title: 'Stage d\'observation – PROBY',
         date: 'Avril 2020',
         type: 'Stage',
-        logo: 'img/logo-ppe/proby.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
+        logo: 'img/logo-ppe/proby.png', 
         content: `
           <p>Premier contact concret avec le monde de l'informatique professionnelle, dans le cadre du stage d'observation de 3ème, effectué au sein du service informatique de l'entreprise <strong>PROBY</strong>.</p>
 
@@ -802,27 +798,25 @@ Bonjour  →  Erqmrxu
           <p>Une expérience courte mais marquante, qui a confirmé mon intérêt pour ce domaine et orienté la suite de mon parcours scolaire vers l'informatique.</p>
         `
       },
-      'alternance2026': {
+      'alternance2027': {
         title: 'Recherche d\'alternance',
-        date: 'Septembre 2026',
+        date: 'Septembre 2027',
         type: 'Recherche',
-        // logo: 'img/logo/alternance.png',  // décommente et mets le chemin pour afficher le logo dans la sidebar
         content: `
-          <p>Je suis actuellement à la recherche d'une <strong>alternance en informatique</strong> pour ma 3ème année de BUT Informatique, parcours <strong>D.A.C.S</strong> (Déploiement d'Applications Communicantes et Sécurisées), à partir de <strong>septembre 2026</strong>.</p>
+          <p>Actuellement en 3ème année de BUT Informatique à l'IUT de Montpellier, parcours <strong>D.A.C.S</strong> (Déploiement d'Applications Communicantes et Sécurisées), je suis à la recherche d'une <strong>alternance de deux ans en infrastructures et cybersécurité</strong>, à partir de <strong>septembre 2027</strong>, dans le cadre du Mastère Professionnel « Manager en Infrastructures et Cybersécurité des Systèmes d'Information » de l'école d'ingénieurs <strong>CESI</strong>.</p>
 
           <h4>Domaines d'intérêt</h4>
           <ul>
-            <li>DevOps, infrastructure et automatisation</li>
-            <li>Réseaux et administration système</li>
-            <li>Cybersécurité</li>
-            <li>Développement bas niveau et systèmes embarqués</li>
+            <li>Infrastructures informatiques et administration systèmes / réseaux</li>
+            <li>Cybersécurité et sécurisation des systèmes</li>
+            <li>Déploiement et automatisation de services (DevOps)</li>
           </ul>
 
           <h4>Rythme</h4>
-          <p>Rythme d'alternance compatible avec le calendrier de l'IUT de Montpellier (à préciser selon l'entreprise). Disponible pour échanger sur les missions, le rythme et les modalités.</p>
+          <p>Alternance de deux ans à raison de 3 semaines sur 4 en entreprise. Disponible pour échanger sur les missions, le rythme et les modalités.</p>
 
           <h4>Profil</h4>
-          <p>Curieux, autonome et motivé, avec une appétence forte pour le bas niveau, les réseaux et la sécurité. Mes projets personnels (visualisation 3D de données géospatiales, chiffrement, Nuit de l'Info) reflètent cette diversité d'intérêts et ma volonté constante d'apprendre.</p>
+          <p>Sérieux, curieux et impliqué, j'ai développé au cours de mon BUT des compétences en administration systèmes, réseaux et sécurité informatique, renforcées par mon stage DevOps au sein de la DSI de Montpellier Méditerranée Métropole. Mes projets personnels (visualisation 3D de données géospatiales, plateforme d'enchères sécurisées, Nuit de l'Info) reflètent cette diversité d'intérêts et ma volonté constante d'apprendre.</p>
 
           <p>Pour discuter d'une opportunité, rendez-vous dans la section <strong>Contact</strong> du portfolio.</p>
         `
